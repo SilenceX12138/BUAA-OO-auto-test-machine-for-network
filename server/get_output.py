@@ -26,7 +26,7 @@ def get_output(dirname, datadir):
         else:
             output_file = output_path + "/template" + str(i) + ".txt"
 
-        if (os.getcwd().find('\\')):
+        if (os.getcwd().find('\\') != -1):
             ''' evaluate real time on win '''
             start_time = time.time()
             os.system("java -jar " + class_path + "/3-1.jar < " + data_file +
@@ -51,7 +51,7 @@ def get_output(dirname, datadir):
             with open(output_file, 'r') as f_out:
                 output_list = f_out.readlines()
             with open(output_file, 'w') as f_out:
-                f_out.writelines("cput time: " + str(cpu_time) + "\n")
+                f_out.writelines("cpu time: " + str(cpu_time) + "\n")
                 f_out.writelines(output_list)
 
 
