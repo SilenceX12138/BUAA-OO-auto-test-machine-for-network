@@ -55,7 +55,7 @@ def get_line_chart(holder_list=[]):
 
 def get_mvp_chart(holder_list):
     plt.figure(figsize=(30, 15))
-    plt.title('MVP Count for All Schedulers')
+    plt.title('MVP Count for All Simulators')
     plt.xlabel('Scheduler')
     plt.ylabel('MVP Count')
 
@@ -71,14 +71,14 @@ def get_stats_chart(holder_list=[]):
         holder.get_stats()
 
     plt.figure(figsize=(30, 15))
-    plt.title('Statistics for All Schedulers')
+    plt.title('Statistics for All Simulators')
     plt.xlabel('Scheduler')
     plt.ylabel('Statisticcs')
 
     dirnames = [holder.dirname for holder in holder_list]
-    mean_list = [holder.mean for holder in holder_list]
-    var_list = [holder.var for holder in holder_list]
-    std_list = [holder.std for holder in holder_list]
+    mean_list = [holder.mean*1000 for holder in holder_list]
+    var_list = [holder.var*1000000 for holder in holder_list]
+    std_list = [holder.std*1000 for holder in holder_list]
     x = npy.arange(len(dirnames))
     rects1 = plt.bar(x, mean_list, width=0.8 / 3, label='mean')
     rects2 = plt.bar(x + 0.8 / 3,

@@ -6,141 +6,113 @@ from xeger import Xeger
 
 from reg_exp import RegExp
 
+two_id_ins_set = [
+    "query_value",
+    "query_conflict",
+    "query_circle",
+    "compare_age",
+    # "compare_name"
+]
+one_id_ins_set = ["query_name_rank", "query_acquaintance_sum"]
+no_id_ins_set = ["query_people_sum"]
+add_ins_set = ["add_person", "add_relation"]
 
-def get_id_list():
+name_list = ["Amy", "Bob", "Candy", "David"]
+
+
+def get_id_list(limit):
     id_list = []
-    for i in range(random.randint(1, 50)):
-        id = random.randint(1, 150)
+    for i in range(random.randint(1, limit)):
+        id = random.randint(1, 1000)
         while id in id_list:
-            id = random.randint(1, 150)
+            id = random.randint(1, 1000)
         id_list.append(id)
     random.shuffle(id_list)
     return id_list
 
 
-def set_put_time(id_list=[]):
-    elev_cnt = random.randint(1, 3)
-    time_cnt = len(id_list) + elev_cnt
-    time_list = []  # contains float type time
-    new_time_list = []  # contains string type time
-    start_time = random.random() * 4 + 1  #[1,5]
-    end_time = random.random() * 70
-    while (end_time <= start_time):
-        end_time = random.random() * 70
-    if (end_time < 60):
-        end_time += 10
-    time_list.append(start_time)
-    time_list.append(end_time)
-    for i in range(time_cnt - 2):
-        time_list.append(random.uniform(start_time, end_time))
-    time_list.sort()
-    for time in time_list:
-        dot_pos = str(time).index('.')
-        new_time_list.append(str(time)[:dot_pos + 2])
-    return new_time_list, elev_cnt
+def get_add_data(id_list=[]):
+    add_list = []
+    add_list.extend(get_add_person_data(id_list))
+    add_list.extend(get_add_relation_data(id_list))
+    return add_list
 
 
-def get_req_list():
-    req_list = []
-    types = ['A', 'B', 'C']
-    id_list = get_id_list()
-    time_list, elev_cnt = set_put_time(id_list)
-    used_id = []
-    for i in range(len(time_list)):
-        if (elev_cnt > 0):
-            choice = random.randint(1, 10)
-            id = random.randint(1, 100)
-            while id in used_id:
-                id = random.randint(1, 100)
-            if (choice <= 2):
-                elev_type = random.choice(types)
-                req_list.append("[" + time_list[i] + "]X" + str(id) +
-                                "-ADD-ELEVATOR-" + elev_type + "\n")
-                used_id.append(id)
-                elev_cnt -= 1
-                continue
-        from_floor, to_floor = get_from_and_to()
-        if (i - len(used_id) >= len(id_list)):
-            break
-        req_list.append("[" + time_list[i] + "]" +
-                        str(id_list[i - len(used_id)]) + "-FROM-" +
-                        str(from_floor) + "-TO-" + str(to_floor) + "\n")
-    return req_list
+def get_add_person_data(id_list=[]):
+    add_person_list = []
+    for id in id_list:
+        name = random.choice(name_list)
+        character = str(random.randint(-10101, 10101))
+        age = str(random.randint(1, 150))
+        add_person_list.append("add_person " + str(id) + " " + name + " " +
+                               character + " " + age)
+    return add_person_list
 
 
-def get_from_and_to():
-    seed = random.randint(1, 100)
-    if (seed <= 15):
-        return all_neg_data()
-    elif (seed <= 25):
-        return all_pos_data()
-    elif (seed <= 40):
-        return neg_to_pos_data()
-    elif (seed <= 55):
-        return pos_to_neg_data()
-    elif (seed <= 70):
-        return edge_start_data()
-    elif (seed <= 85):
-        return edge_end_data()
-    elif (seed <= 100):
-        return edge_to_edge_data()
+def get_add_relation_data(id_list=[]):
+    add_relation_list = []
+    n = len(id_list)
+    if (n == 1):
+        return add_relation_list
+    cnt = random.randint(1, n - 1)
+    prop = cnt / (n**2 - n)
+    matrix = [([0] * n) for i in range(n)]
+    while (cnt > 0):
+        for i in range(n):
+            for j in range(n):
+                if (i == j):
+                    continue
+                if (cnt > 0 and matrix[i][j] == 0):
+                    chance = random.random()
+                    if (chance <= prop):
+                        value = random.randint(1, 150)
+                        matrix[i][j] = value
+                        matrix[j][i] = value
+                        cnt -= 1
+                        add_relation_list.append("add_relation " +
+                                                 str(id_list[i]) + " " +
+                                                 str(id_list[j]) + " " +
+                                                 str(value))
+    return add_relation_list
 
 
-def all_neg_data():
-    from_floor = random.randint(-3, -1)
-    to_floor = random.randint(-3, -1)
-    while from_floor == to_floor:
-        to_floor = random.randint(-3, -1)
-    return from_floor, to_floor
+def get_two_id_data(id_list=[]):
+    id1 = random.choice(id_list)
+    id2 = random.choice(id_list)
+    while (id1 == id2):
+        id2 = random.choice(id_list)
+    return random.choice(two_id_ins_set) + " " + str(id1) + " " + str(id2)
 
 
-def all_pos_data():
-    from_floor = random.randint(1, 20)
-    to_floor = random.randint(1, 20)
-    while from_floor == to_floor:
-        to_floor = random.randint(1, 20)
-    return from_floor, to_floor
+def get_one_id_data(id_list=[]):
+    id = random.choice(id_list)
+    return random.choice(one_id_ins_set) + " " + str(id)
 
 
-def neg_to_pos_data():
-    from_floor = random.randint(-3, -1)
-    to_floor = random.randint(1, 20)
-    return from_floor, to_floor
+def get_no_id_data():
+    return random.choice(no_id_ins_set)
 
 
-def pos_to_neg_data():
-    from_floor = random.randint(1, 20)
-    to_floor = random.randint(-3, -1)
-    return from_floor, to_floor
-
-
-def edge_start_data():
-    edge = [-3, -1, 1, 15, 20]
-    from_floor = random.choice(edge)
-    to_floor = random.randint(-3, 20)
-    while (to_floor == 0 or to_floor == from_floor):
-        to_floor = random.randint(-3, 20)
-    return from_floor, to_floor
-
-
-def edge_end_data():
-    edge = [-3, -1, 1, 15, 20]
-    from_floor = random.randint(-3, 20)
-    while (from_floor == 0):
-        from_floor = random.randint(-3, 20)
-    to_floor = random.choice(edge)
-    while (to_floor == from_floor):
-        to_floor = random.choice(edge)
-    return from_floor, to_floor
-
-
-def edge_to_edge_data():
-    edge = [-3, -1, 1, 15, 20]
-    from_floor = random.choice(edge)
-    to_floor = random.choice(edge)
-    while from_floor == to_floor:
-        to_floor = random.choice(edge)
-    return from_floor, to_floor
+def get_data():
+    data_list = []
+    total_cnt = random.randint(750, 1000)
+    id_list = get_id_list(max(1, total_cnt // 3))
+    data_list = get_add_data(id_list)
+    if (total_cnt < len(data_list)):
+        total_cnt = len(data_list) + total_cnt // 3
+    left_cnt = total_cnt - len(data_list)
+    for i in range(left_cnt):
+        chance = random.randint(1, 10)
+        if (chance <= 1):
+            data_list.append(get_no_id_data())
+        elif (chance <= 5):
+            data_list.append(get_one_id_data(id_list))
+        elif (chance <= 10 and len(id_list) >= 2):
+            data_list.append(get_two_id_data(id_list))
+    chance = random.randint(1, 10)
+    if (chance > 5):
+        random.shuffle(data_list)
+    return data_list
 
 
 def gene_data(case_count=10):
@@ -149,8 +121,9 @@ def gene_data(case_count=10):
     os.mkdir("./data")
     for i in range(case_count):
         with open("./data/testcase" + str(i) + ".txt", 'w') as f:
-            data = get_req_list()
-            f.writelines(data)
+            data_list = get_data()
+            for data in data_list:
+                f.writelines(data + "\n")
 
 
 if __name__ == "__main__":

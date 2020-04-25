@@ -20,7 +20,8 @@ class get_sub_result(threading.Thread):
     def run(self):
         ''' evaluate time and check result '''
         get_output(self.dirname, self.datadir)
-        self.check_result()
+        if (self.dirname != "std"):
+            self.check_result()
 
     def check_result(self):
         result_path = "./result/" + self.dirname

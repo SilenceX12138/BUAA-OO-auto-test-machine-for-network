@@ -12,7 +12,7 @@ def get_result(datadir):
     dirnames = os.listdir("./lib")
     thread = get_sub_result("std", datadir)
     thread.start()
-    time.sleep(5)
+    time.sleep(3)
     threads = []
     for dirname in dirnames:
         thread = get_sub_result(dirname, datadir)

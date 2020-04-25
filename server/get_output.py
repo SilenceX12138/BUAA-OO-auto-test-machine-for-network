@@ -59,4 +59,4 @@ if __name__ == "__main__":
     # dirname = argv[1]
     # datadir = argv[2]
     # get_output(dirname, datadir)
-    get_output("std", "./data")
+    get_output("silence", "./data")
