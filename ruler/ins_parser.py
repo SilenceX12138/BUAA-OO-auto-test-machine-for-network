@@ -21,3 +21,12 @@ def get_character_from_list(valid_input_list=[], id=0):
             character = int(valid_input.split(' ')[3])
             break
     return character
+
+
+def get_age_from_list(valid_input_list=[], id=0):
+    age = None
+    for valid_input in valid_input_list:
+        if (valid_input.find("add_person " + str(id) + " ") != -1):
+            age = int(valid_input.split(' ')[-1])
+            break
+    return age

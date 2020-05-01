@@ -13,8 +13,8 @@ def compare_age_check(valid_id_list=[],
                       output=""):
     id1, id2 = get_two_id_from_ins(compare_input)
     if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
-        return not (output == "Can't find a Person has this id.")
-    r = output.split(' ')[5]  # Ok, the Age of id1 xx the Age of id2.
+        return not (output == "pinf")
+    input_r = output
     age1, age2 = None, None
     for valid_input in valid_input_list:
         if (valid_input.find("add_person " + str(id1) + " ") != -1):
@@ -26,13 +26,12 @@ def compare_age_check(valid_id_list=[],
             if (age1 != None):
                 break
     if (age1 == age2):
-        expected_r = " = "
+        expected_r = "="
     elif (age1 > age2):
-        expected_r = " > "
+        expected_r = ">"
     else:
-        expected_r = " < "
-    expected_output = "Ok, the Age of " + str(
-        id1) + expected_r + "the Age of " + str(id2) + "."
+        expected_r = "<"
+    expected_output = expected_r
     return not (output == expected_output)
 
 
@@ -42,8 +41,8 @@ def compare_name_check(valid_id_list=[],
                        output=""):
     id1, id2 = get_two_id_from_ins(compare_input)
     if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
-        return not (output == "Can't find a Person has this id.")
-    r = output.split(' ')[5]  # Ok, the Name of id1 xx the Name of id2.
+        return not (output == "pinf")
+    input_r = output
     name1, name2 = None, None
     for valid_input in valid_input_list:
         if (valid_input.find("add_person " + str(id1) + " ") != -1):
@@ -55,13 +54,12 @@ def compare_name_check(valid_id_list=[],
             if (name1 != None):
                 break
     if (name1 == name2):
-        expected_r = " = "
+        expected_r = "="
     elif (name1 > name2):
-        expected_r = " > "
+        expected_r = ">"
     else:
-        expected_r = " < "
-    expected_output = "Ok, the Name of " + str(
-        id1) + expected_r + "the Name of " + str(id2) + "."
+        expected_r = "<"
+    expected_output = expected_r
     return not (output == expected_output)
 
 
@@ -77,6 +75,9 @@ def compare_check(valid_id_list=[],
         if (compare_name_check(valid_id_list, valid_input_list, compare_input,
                                output)):
             return True
+    else:
+        return True # illegal instruction
+    
     return False
 
 
