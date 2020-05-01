@@ -14,10 +14,10 @@ def query_val_check(valid_id_list=[],
                     query_input="",
                     output=""):
     id1, id2 = get_two_id_from_ins(query_input)
-    val = int(output)
     if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
         return not (output == "pinf")
     if (id1 == id2):
+        val = int(output)
         return not (val == 0)
     tag = 0
     for valid_input in valid_input_list:
@@ -28,6 +28,7 @@ def query_val_check(valid_id_list=[],
                 break
     if (tag == 0):
         return not (output == "rnf")
+    val = int(output)
     expected_val = get_val_from_list(valid_input_list, id1, id2)
     return not (val == expected_val)
 
@@ -151,6 +152,8 @@ def query_group_people_sum_check(valid_group_dic={},
                                  query_input="",
                                  output=""):
     id = int(query_input.split(' ')[-1])
+    if (id not in valid_group_dic.keys()):
+        return not (output == "ginf")
     input_sum = int(output)
     return not (input_sum == len(valid_group_dic[id]))
 
@@ -230,7 +233,7 @@ def query_group_age_mean_check(valid_input_list=[],
     for id in group_person_list:
         age = get_age_from_list(valid_input_list, id)
         age_list.append(age)
-    expected_mean = npy.mean(age_list)
+    expected_mean = int(npy.mean(age_list))
     return not (expected_mean == input_mean)
 
 
@@ -250,7 +253,7 @@ def query_group_age_var_check(valid_input_list=[],
         age = get_age_from_list(valid_input_list, id)
         age_list.append(age)
     expected_var = int(npy.var(age_list))
-    return not (expected_var == input_var)
+    return not (abs(expected_var - input_var) <= 1)
 
 
 def query_check(valid_id_list=[],
@@ -313,7 +316,7 @@ def query_check(valid_id_list=[],
             return True
     else:
         return True  # illegal instruction
-    
+
     return False
 
 

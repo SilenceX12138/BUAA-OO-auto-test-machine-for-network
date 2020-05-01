@@ -1,10 +1,16 @@
 import os
 import random
 import shutil
+import sys
 
 from xeger import Xeger
 
 from reg_exp import RegExp
+
+path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(path + "./factory")
+
+from group_data import get_group_data
 
 two_id_ins_set = [
     "query_value",
@@ -23,9 +29,9 @@ name_list = ["Amy", "Bob", "Candy", "David"]
 def get_id_list(limit):
     id_list = []
     for i in range(random.randint(1, limit)):
-        id = random.randint(1, 1000)
+        id = random.randint(-3 * limit, 3 * limit)
         while id in id_list:
-            id = random.randint(1, 1000)
+            id = random.randint(-3 * limit, 3 * limit)
         id_list.append(id)
     random.shuffle(id_list)
     return id_list
@@ -43,7 +49,7 @@ def get_add_person_data(id_list=[]):
     for id in id_list:
         name = random.choice(name_list)
         character = str(random.randint(-10101, 10101))
-        age = str(random.randint(1, 150))
+        age = str(random.randint(0, 200))
         add_person_list.append("add_person " + str(id) + " " + name + " " +
                                character + " " + age)
     return add_person_list
@@ -95,9 +101,17 @@ def get_no_id_data():
 
 def get_data():
     data_list = []
-    total_cnt = random.randint(750, 1000)
-    id_list = get_id_list(max(1, total_cnt // 3))
-    data_list = get_add_data(id_list)
+    # total_cnt = random.randint(500, 1000)
+    total_cnt = 100000
+    # id_list = get_id_list(max(1, total_cnt // 3))
+    id_list = get_id_list(max(1,5000))
+    data_list.extend(get_add_data(id_list))
+    data_list.extend(get_group_data(id_list, total_cnt // 3))
+    left = len(id_list) // 5
+    right = len(data_list)
+    sub_data_list = data_list[left:right]
+    random.shuffle(sub_data_list)
+    data_list[left:right] = sub_data_list
     if (total_cnt < len(data_list)):
         total_cnt = len(data_list) + total_cnt // 3
     left_cnt = total_cnt - len(data_list)
@@ -110,8 +124,14 @@ def get_data():
         elif (chance <= 10 and len(id_list) >= 2):
             data_list.append(get_two_id_data(id_list))
     chance = random.randint(1, 10)
-    if (chance > 5):
+    if (chance <= 4):
         random.shuffle(data_list)
+    if (chance <= 10):
+        left = len(data_list) // 3
+        right = len(data_list)
+        sub_data_list = data_list[left:right]
+        random.shuffle(sub_data_list)
+        data_list[left:right] = sub_data_list
     return data_list
 
 

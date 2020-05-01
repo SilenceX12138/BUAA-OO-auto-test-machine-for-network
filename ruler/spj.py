@@ -85,8 +85,8 @@ def logic_judge(data_file, output_file):
                     return "line " + str(
                         i + 1) + " has problem with request: " + input_list[i]
             elif (ins_act.find("query") != -1):
-                if (i == 9):
-                    i = 9
+                if (i == 726):
+                    i = 726
                 if (query_check(valid_id_list, valid_input_list,
                                 valid_group_dic, input_list[i],
                                 output_list[i])):
@@ -115,6 +115,6 @@ if __name__ == "__main__":
     #               "./output/altergo/output" + str(i) + ".txt",
     #               "./template/template4.txt")
     #     print(i, r)
-    r = check("./data/testcase5.txt", "./output/altergo/output5.txt",
+    r = check("./data/testcase1.txt", "./output/add_group/output1.txt",
               "./template/template4.txt")
     print(r)
