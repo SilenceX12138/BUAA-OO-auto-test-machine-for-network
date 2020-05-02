@@ -28,7 +28,7 @@ def time_judge(output_file):
         last_move = f_out.readlines()[0]
         pos = last_move.index(':')
         time = (float)(last_move[pos + 2:])
-        if (time >= 2 - 0.000001):
+        if (time >= 6.66 - 0.000001):
             return True
     return False
 
@@ -85,8 +85,8 @@ def logic_judge(data_file, output_file):
                     return "line " + str(
                         i + 1) + " has problem with request: " + input_list[i]
             elif (ins_act.find("query") != -1):
-                if (i == 726):
-                    i = 726
+                if (i == 0):
+                    i = 0
                 if (query_check(valid_id_list, valid_input_list,
                                 valid_group_dic, input_list[i],
                                 output_list[i])):
@@ -101,9 +101,10 @@ def logic_judge(data_file, output_file):
 
 
 def check(data_file, output_file, template_file):
-    r1 = ""
-    # r1 = cmp_judge(data_file, output_file, template_file)
-    r2 = logic_judge(data_file, output_file)
+    # r1 = ""
+    r1 = cmp_judge(data_file, output_file, template_file)
+    r2 = ""
+    # r2 = logic_judge(data_file, output_file)
     if (len(r1) + len(r2)) > 0:
         return "cmp_judge: " + r1 + "\nlogic_judge: " + r2
     return ""
@@ -115,6 +116,6 @@ if __name__ == "__main__":
     #               "./output/altergo/output" + str(i) + ".txt",
     #               "./template/template4.txt")
     #     print(i, r)
-    r = check("./data/testcase1.txt", "./output/add_group/output1.txt",
-              "./template/template4.txt")
+    r = check("./data/testcase6.txt", "./output/capacity/output6.txt",
+              "./template/template6.txt")
     print(r)

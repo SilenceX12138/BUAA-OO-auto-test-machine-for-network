@@ -101,10 +101,10 @@ def get_no_id_data():
 
 def get_data():
     data_list = []
-    # total_cnt = random.randint(500, 1000)
+    # total_cnt = random.randint(1000, 3000)
     total_cnt = 100000
     # id_list = get_id_list(max(1, total_cnt // 3))
-    id_list = get_id_list(max(1,5000))
+    id_list = get_id_list(min(total_cnt // 3,5000))
     data_list.extend(get_add_data(id_list))
     data_list.extend(get_group_data(id_list, total_cnt // 3))
     left = len(id_list) // 5
