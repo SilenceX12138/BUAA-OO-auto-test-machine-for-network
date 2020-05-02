@@ -107,6 +107,9 @@ def get_data():
     id_list = get_id_list(min(total_cnt // 3,5000))
     data_list.extend(get_add_data(id_list))
     data_list.extend(get_group_data(id_list, total_cnt // 3))
+    duplicate_add_list = get_add_person_data(id_list)
+    l = len(duplicate_add_list)
+    data_list.extend(duplicate_add_list[l//3:2*l//3])
     left = len(id_list) // 5
     right = len(data_list)
     sub_data_list = data_list[left:right]

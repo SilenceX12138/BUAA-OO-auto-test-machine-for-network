@@ -33,7 +33,10 @@ def get_id_list(limit=10):
 def get_add_data(person_id_list=[], group_id_list=[]):
     add_list = []
     add_list.extend(get_add_group_data(group_id_list))
-    add_list.extend(get_add_to_group_data(person_id_list, group_id_list))
+    add_list.extend(
+        get_add_to_group_data(
+            person_id_list, group_id_list,
+            random.randint(len(person_id_list), 2 * len(person_id_list))))
     return add_list
 
 
