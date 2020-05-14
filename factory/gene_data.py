@@ -122,7 +122,7 @@ def get_data():
         chance = random.randint(1, 10)
         if (chance <= 1):
             data_list.append(get_no_id_data())
-        elif (chance <= 5):
+        elif (chance <= 4):
             data_list.append(get_one_id_data(id_list))
         elif (chance <= 10 and len(id_list) >= 2):
             data_list.append(get_two_id_data(id_list))

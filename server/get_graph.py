@@ -72,42 +72,34 @@ def get_stats_chart(holder_list=[]):
 
     plt.figure(figsize=(30, 15))
     plt.title('Statistics for All Simulators')
-    plt.xlabel('Scheduler')
-    plt.ylabel('Statisticcs')
+    plt.xlabel('Simulator')
+    plt.ylabel('Statistics')
 
     dirnames = [holder.dirname for holder in holder_list]
-    mean_list = [holder.mean*1000 for holder in holder_list]
-    var_list = [holder.var*1000000 for holder in holder_list]
-    std_list = [holder.std*1000 for holder in holder_list]
+    mean_list = [holder.mean * 1000 for holder in holder_list]
+    # var_list = [0 for holder in holder_list]
+    std_list = [holder.std * 1000 for holder in holder_list]
     x = npy.arange(len(dirnames))
-    rects1 = plt.bar(x, mean_list, width=0.8 / 3, label='mean')
-    rects2 = plt.bar(x + 0.8 / 3,
-                     var_list,
-                     width=0.8 / 3,
+    rects1 = plt.bar(x,
+                     mean_list,
+                     width=0.8 / 2,
                      tick_label=dirnames,
-                     label='var')
-    rects3 = plt.bar(x + 2 * 0.8 / 3, std_list, width=0.8 / 3, label='std')
+                     label='mean')
+    rects2 = plt.bar(x + 0.8 / 2, std_list, width=0.8 / 2, label='std')
     plt.legend()
 
     for rect in rects1:
         height = rect.get_height()
         plt.text(rect.get_x() + rect.get_width() / 2,
                  height + 1,
-                 str(height),
+                 str(height)[:9],
                  ha="center",
                  va="bottom")
     for rect in rects2:
         height = rect.get_height()
         plt.text(rect.get_x() + rect.get_width() / 2,
                  height + 1,
-                 str(height),
-                 ha="center",
-                 va="bottom")
-    for rect in rects3:
-        height = rect.get_height()
-        plt.text(rect.get_x() + rect.get_width() / 2,
-                 height + 1,
-                 str(height),
+                 str(height)[:9],
                  ha="center",
                  va="bottom")
 

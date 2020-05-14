@@ -116,6 +116,6 @@ if __name__ == "__main__":
     #               "./output/altergo/output" + str(i) + ".txt",
     #               "./template/template4.txt")
     #     print(i, r)
-    r = check("./data/testcase6.txt", "./output/capacity/output6.txt",
-              "./template/template6.txt")
+    r = check("./data/testcase21.txt", "./output/saber/output21.txt",
+              "./template/template21.txt")
     print(r)
