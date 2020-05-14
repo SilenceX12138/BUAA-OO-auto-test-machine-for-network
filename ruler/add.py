@@ -51,15 +51,34 @@ def add_to_group_check(valid_id_list=[],
     group_person_list = valid_group_dic[group_id]
     if (person_id in group_person_list):
         return not (output == "epi")
+    if (len(group_person_list) == 1111):
+        return not (output == "Ok")
     if (len(group_person_list) > 1111):
         return True
     valid_group_dic[group_id].append(person_id)
     return not (output == "Ok")
 
 
+def borrow_from_check(valid_id_list=[],
+                      valid_borrow_list=[],
+                      input_add="",
+                      output=""):
+    id1 = int(input_add.split(' ')[1])
+    id2 = int(input_add.split(' ')[2])
+
+    if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
+        return not (output == "pinf")
+    if (id1 == id2):
+        return not (output == "epi")
+
+    valid_borrow_list.append(input_add)
+    return not (output == "Ok")
+
+
 def add_check(valid_id_list=[],
               valid_input_list=[],
               valid_group_dic={},
+              valid_borrow_list=[],
               input_add="",
               output=""):
     if (input_add.split(' ')[0] == "add_person"):
@@ -77,9 +96,13 @@ def add_check(valid_id_list=[],
         if (add_to_group_check(valid_id_list, valid_group_dic, input_add,
                                output)):
             return True
+    elif (input_add.split(' ')[0] == "borrow_from"):
+        if (borrow_from_check(valid_id_list, valid_borrow_list, input_add,
+                              output)):
+            return True
     else:
         return True  # illegal instruction
-    
+
     return False
 
 

@@ -7,6 +7,7 @@ sys.path.append(path + "./ruler")
 from add import add_check
 from compare import compare_check
 from query import query_check
+from delete import del_check
 
 
 # valid strip CRLF information list
@@ -60,23 +61,26 @@ def logic_judge(data_file, output_file):
     input_list = get_list(data_file)
     output_list = get_list(output_file)
 
-    valid_id_list = []
-    valid_input_list = []
+    valid_id_list = []  # valid person_id list
+    valid_input_list = []  # valid add_person and add_relation
     valid_group_dic = {}
+    valid_borrow_list = []  # valid borrow_from list
 
     # filter length difference
     if (len(input_list) != len(output_list)):
         return "request length has problem"
 
     for i in range(len(input_list)):
-        if (i == 617):
-            i = 617
+        if (i == 5):
+            i = 5
         try:
             ins_act = input_list[i].split(' ')[0]
-            if (ins_act.find("add") != -1):
-                valid_tag = 1
+            if (ins_act.find("add") != -1 or ins_act.find("borrow") != -1):
+                if (i == 8182):
+                    i = 8182
                 if (add_check(valid_id_list, valid_input_list, valid_group_dic,
-                              input_list[i], output_list[i])):
+                              valid_borrow_list, input_list[i],
+                              output_list[i])):
                     return "line " + str(
                         i + 1) + " has problem with request: " + input_list[i]
             elif (ins_act.find("compare") != -1):
@@ -88,10 +92,20 @@ def logic_judge(data_file, output_file):
                 if (i == 0):
                     i = 0
                 if (query_check(valid_id_list, valid_input_list,
-                                valid_group_dic, input_list[i],
-                                output_list[i])):
+                                valid_group_dic, valid_borrow_list,
+                                input_list[i], output_list[i])):
                     return "line " + str(
                         i + 1) + " has problem with request: " + input_list[i]
+            elif (ins_act.find("del") != -1):
+                if (i == 0):
+                    i = 0
+                if (del_check(valid_id_list, valid_input_list, valid_group_dic,
+                              input_list[i], output_list[i])):
+                    return "line " + str(
+                        i + 1) + " has problem with request: " + input_list[i]
+            else:
+                return "line " + str(
+                    i + 1) + " has problem with request: " + input_list[i]
 
         except (TypeError, ValueError, Exception):
             return "line " + str(
@@ -103,19 +117,19 @@ def logic_judge(data_file, output_file):
 def check(data_file, output_file, template_file):
     # r1 = ""
     r1 = cmp_judge(data_file, output_file, template_file)
-    r2 = ""
-    # r2 = logic_judge(data_file, output_file)
+    # r2 = ""
+    r2 = logic_judge(data_file, output_file)
     if (len(r1) + len(r2)) > 0:
         return "cmp_judge: " + r1 + "\nlogic_judge: " + r2
     return ""
 
 
 if __name__ == "__main__":
-    # for i in range(6):
+    # for i in range(10):
     #     r = check("./data/testcase" + str(i) + ".txt",
-    #               "./output/altergo/output" + str(i) + ".txt",
+    #               "./output/saber/output" + str(i) + ".txt",
     #               "./template/template4.txt")
     #     print(i, r)
-    r = check("./data/testcase21.txt", "./output/saber/output21.txt",
-              "./template/template21.txt")
+    r = check("./data/testcase0.txt", "./output/altergo/output0.txt",
+              "./template/template0.txt")
     print(r)
