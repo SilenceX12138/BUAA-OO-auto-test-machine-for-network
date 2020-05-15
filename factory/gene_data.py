@@ -37,7 +37,7 @@ def get_data(count=3000):
     return data
 
 
-def gene_data(case_count=10):
+def gene_data(case_count=100):
     if (os.path.exists("./data")):
         shutil.rmtree("./data")
     os.mkdir("./data")

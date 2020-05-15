@@ -17,7 +17,7 @@ special_ins_set = [
 
 def get_id_list(limit=0):
     id_list = []
-    for i in range(random.randint(limit // 2, limit)):
+    for i in range(random.randint(max(1, limit // 2), limit)):
         id = random.randint(-3 * limit, 3 * limit)
         while id in id_list:
             id = random.randint(-3 * limit, 3 * limit)

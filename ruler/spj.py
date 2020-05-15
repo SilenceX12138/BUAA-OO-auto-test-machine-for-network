@@ -117,8 +117,8 @@ def logic_judge(data_file, output_file):
 def check(data_file, output_file, template_file):
     # r1 = ""
     r1 = cmp_judge(data_file, output_file, template_file)
-    # r2 = ""
-    r2 = logic_judge(data_file, output_file)
+    r2 = ""
+    # r2 = logic_judge(data_file, output_file)
     if (len(r1) + len(r2)) > 0:
         return "cmp_judge: " + r1 + "\nlogic_judge: " + r2
     return ""
