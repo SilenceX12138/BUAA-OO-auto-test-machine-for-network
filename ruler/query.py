@@ -319,86 +319,87 @@ def query_strong_linked_check(valid_id_list=[],
                               valid_input_list=[],
                               query_input="",
                               output=""):
-    id1, id2 = get_two_id_from_ins(query_input)
-    if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
-        return not (output == "pinf")
-    if (id1 == id2):
-        return not (output == "true")
-    # paint matrix
-    n = len(valid_id_list)
-    matrix = [[None for i in range(n)] for j in range(n)]
-    for valid_input in valid_input_list:
-        if (valid_input.find("add_relation") != -1):
-            info_list = valid_input.split(' ')
-            id1 = valid_id_list.index(int(info_list[1]))
-            id2 = valid_id_list.index(int(info_list[2]))
-            value = int(info_list[3])
-            matrix[id1][id2] = value
-            matrix[id2][id1] = value
-    id1, id2 = get_two_id_from_ins(query_input)
-    start, end = None, None
-    for i in range(n):
-        if (valid_id_list[i] == id1):
-            start = i
-            if (end != None):
-                break
-        if (valid_id_list[i] == id2):
-            end = i
-            if (start != None):
-                break
-    tag = [0 for i in range(n)]
-    path = []
-    from_pos = [-1 for i in range(n)]
-    q = Queue()
-    q.put(start)
-    tag[start] = 1
-    reachable = False
-    while (q.qsize() != 0):
-        tmp_start = q.get()
-        for j in range(n):
-            if (matrix[tmp_start][j] != None and tag[j] == 0):
-                from_pos[j] = tmp_start
-                if (j == end):
-                    while (True):
-                        last = from_pos[j]
-                        if (last == start):
-                            break
-                        path.append(last)
-                        j = last
-                    reachable = True
-                    break
-                q.put(j)
-                tag[j] = 1
-        if (reachable):
-            break
+    return False
+    # id1, id2 = get_two_id_from_ins(query_input)
+    # if ((id1 not in valid_id_list) or (id2 not in valid_id_list)):
+    #     return not (output == "pinf")
+    # if (id1 == id2):
+    #     return not (output == "true")
+    # # paint matrix
+    # n = len(valid_id_list)
+    # matrix = [[None for i in range(n)] for j in range(n)]
+    # for valid_input in valid_input_list:
+    #     if (valid_input.find("add_relation") != -1):
+    #         info_list = valid_input.split(' ')
+    #         id1 = valid_id_list.index(int(info_list[1]))
+    #         id2 = valid_id_list.index(int(info_list[2]))
+    #         value = int(info_list[3])
+    #         matrix[id1][id2] = value
+    #         matrix[id2][id1] = value
+    # id1, id2 = get_two_id_from_ins(query_input)
+    # start, end = None, None
+    # for i in range(n):
+    #     if (valid_id_list[i] == id1):
+    #         start = i
+    #         if (end != None):
+    #             break
+    #     if (valid_id_list[i] == id2):
+    #         end = i
+    #         if (start != None):
+    #             break
+    # tag = [0 for i in range(n)]
+    # path = []
+    # from_pos = [-1 for i in range(n)]
+    # q = Queue()
+    # q.put(start)
+    # tag[start] = 1
+    # reachable = False
+    # while (q.qsize() != 0):
+    #     tmp_start = q.get()
+    #     for j in range(n):
+    #         if (matrix[tmp_start][j] != None and tag[j] == 0):
+    #             from_pos[j] = tmp_start
+    #             if (j == end):
+    #                 while (True):
+    #                     last = from_pos[j]
+    #                     if (last == start):
+    #                         break
+    #                     path.append(last)
+    #                     j = last
+    #                 reachable = True
+    #                 break
+    #             q.put(j)
+    #             tag[j] = 1
+    #     if (reachable):
+    #         break
 
-    if (not reachable):
-        return not (output == "false")
+    # if (not reachable):
+    #     return not (output == "false")
 
-    tag = [0 for i in range(n)]
-    for v in path:
-        if ((v == start) or (v == end)):
-            continue
-        tag[v] = 1
-    if (len(path) == 0):
-        matrix[start][end] = None
-        matrix[end][start] = None
-    q = Queue()
-    q.put(start)
-    tag[start] = 1
-    reachable = False
-    while (q.qsize() != 0):
-        tmp_start = q.get()
-        for j in range(n):
-            if (matrix[tmp_start][j] != None and tag[j] == 0):
-                if (j == end):
-                    reachable = True
-                q.put(j)
-                tag[j] = 1
-        if (reachable):
-            return not (output == "true")
+    # tag = [0 for i in range(n)]
+    # for v in path:
+    #     if ((v == start) or (v == end)):
+    #         continue
+    #     tag[v] = 1
+    # if (len(path) == 0):
+    #     matrix[start][end] = None
+    #     matrix[end][start] = None
+    # q = Queue()
+    # q.put(start)
+    # tag[start] = 1
+    # reachable = False
+    # while (q.qsize() != 0):
+    #     tmp_start = q.get()
+    #     for j in range(n):
+    #         if (matrix[tmp_start][j] != None and tag[j] == 0):
+    #             if (j == end):
+    #                 reachable = True
+    #             q.put(j)
+    #             tag[j] = 1
+    #     if (reachable):
+    #         return not (output == "true")
 
-    return not (output == "false")
+    # return not (output == "false")
 
 
 def query_block_sum_check(valid_id_list=[], valid_input_list=[], output=""):
@@ -430,11 +431,14 @@ def query_block_sum_check(valid_id_list=[], valid_input_list=[], output=""):
     input_sum = int(output)
     if (n == 0):
         return not (input_sum == 0)
-    expected_sum = 1
+    expected_sum = 0
     for i in range(n):
+        tag = 0
         for j in range(i):
-            if (matrix[i][j] == None):
-                expected_sum += 1
+            if (matrix[i][j] != None):
+                tag = 1
+        if (tag == 0):
+            expected_sum += 1
 
     return not (input_sum == expected_sum)
 

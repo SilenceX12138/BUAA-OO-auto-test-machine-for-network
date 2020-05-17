@@ -29,7 +29,7 @@ def time_judge(output_file):
         last_move = f_out.readlines()[0]
         pos = last_move.index(':')
         time = (float)(last_move[pos + 2:])
-        if (time >= 6.66 - 0.000001):
+        if (time >= 2.00 - 0.000001):
             return True
     return False
 
@@ -89,8 +89,8 @@ def logic_judge(data_file, output_file):
                     return "line " + str(
                         i + 1) + " has problem with request: " + input_list[i]
             elif (ins_act.find("query") != -1):
-                if (i == 0):
-                    i = 0
+                if (i == 1542):
+                    i = 1542
                 if (query_check(valid_id_list, valid_input_list,
                                 valid_group_dic, valid_borrow_list,
                                 input_list[i], output_list[i])):
@@ -130,6 +130,6 @@ if __name__ == "__main__":
     #               "./output/saber/output" + str(i) + ".txt",
     #               "./template/template4.txt")
     #     print(i, r)
-    r = check("./data/testcase0.txt", "./output/altergo/output0.txt",
+    r = check("./data/testcase0.txt", "./output/tempone/output0.txt",
               "./template/template0.txt")
     print(r)

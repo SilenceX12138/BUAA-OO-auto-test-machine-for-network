@@ -5,7 +5,7 @@ def del_from_group_check(valid_id_list=[],
                          output=""):
     person_id = int(del_input.split(' ')[-2])
     group_id = int(del_input.split(' ')[-1])
-
+    
     if (group_id not in valid_group_dic):
         return not (output == "ginf")
     if (person_id not in valid_id_list):
@@ -16,15 +16,6 @@ def del_from_group_check(valid_id_list=[],
 
     group_person_list.remove(person_id)
 
-    removed_input_list = []
-    for valid_input in valid_input_list:
-        if (valid_input.find("add_to_group") != -1):
-            id1 = int(valid_input.split(' ')[-2])
-            if (id1 == person_id):
-                continue
-        removed_input_list.append(valid_input)
-    valid_input_list = removed_input_list
-    
     return not (output == "Ok")
 
 
